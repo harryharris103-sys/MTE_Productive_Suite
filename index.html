@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MTE Productive Suite</title>
+<style>
+:root{--bg:#f3f1ec;--bar:#fff;--ink:#1f2328;--mut:#6b7280;--line:#d9d6cd;--gold:#C9932E;--desk:#e4e1d9;--paper:#fff;--ptext:#111;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#16171a;--bar:#202226;--ink:#eceae4;--mut:#9aa0a8;--line:#363940;--desk:#0f1012}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#16171a;--bar:#202226;--ink:#eceae4;--mut:#9aa0a8;--line:#363940;--desk:#0f1012}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+button,select,input{font:inherit;color:inherit}
+#hub{max-width:900px;margin:0 auto;padding:40px 20px}
+#hub h1{margin:0 0 4px;font-size:28px}#hub h1 b{color:var(--gold)}
+#hub p{color:var(--mut);margin:0 0 28px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--bar);border:1px solid var(--line);border-radius:14px;padding:22px;text-align:left;cursor:pointer;display:block}
+.card .ic{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-weight:700;color:#fff;font-size:22px;margin-bottom:12px}
+.card h3{margin:0 0 6px}.card span{color:var(--mut);font-size:14px}
+.card.off{opacity:.55;cursor:default}.tag{display:inline-block;font-size:11px;border:1px solid var(--line);border-radius:99px;padding:1px 8px;margin-top:10px}
+#app{display:none;height:100%;flex-direction:column}
+body.in #hub{display:none}body.in #app{display:flex}
+#top{background:var(--bar);border-bottom:1px solid var(--line);padding:6px 10px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+#top .brand{font-weight:700;color:var(--gold);cursor:pointer;margin-right:6px}
+#title{border:1px solid transparent;background:transparent;font-weight:600;padding:4px 6px;border-radius:6px;min-width:120px;flex:1;max-width:280px}
+#title:hover,#title:focus{border-color:var(--line)}
+#tb{background:var(--bar);border-bottom:1px solid var(--line);padding:6px 10px;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.b{min-width:32px;height:32px;border:1px solid transparent;background:transparent;border-radius:6px;cursor:pointer;padding:0 8px}
+.b:hover{background:var(--bg);border-color:var(--line)}.b.on{background:var(--gold);color:#fff}
+.sep{width:1px;height:22px;background:var(--line);margin:0 4px}
+select.b{border-color:var(--line);background:var(--bar);padding:0 4px}
+input[type=color]{width:30px;height:30px;padding:0;border:1px solid var(--line);border-radius:6px;background:none}
+#desk{flex:1;overflow:auto;background:var(--desk);padding:24px 12px}
+#page{--pw:8.5in;--ph:11in;width:var(--pw);min-height:var(--ph);margin:0 auto;background:var(--paper);color:var(--ptext);padding:1in;outline:none;
+box-shadow:0 2px 14px rgba(0,0,0,.25);font:12pt/1.5 Calibri,Carlito,Arial,sans-serif;overflow-wrap:break-word;
+background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(var(--ph) - 3px),#bbb calc(var(--ph) - 3px),#bbb var(--ph))}
+#page p{margin:0 0 8pt}#page h1{font-size:20pt;margin:12pt 0 6pt}#page h2{font-size:16pt;margin:10pt 0 6pt}#page h3{font-size:13pt;margin:8pt 0 4pt}
+#page table{border-collapse:collapse;margin:6pt 0;max-width:100%}#page td,#page th{border:1px solid #888;padding:4px 8px;min-width:50px;vertical-align:top}
+#page img{max-width:100%}#page blockquote{border-left:3px solid var(--gold);margin:8pt 0;padding-left:12px;color:#444}
+ins{color:#1a56db;text-decoration:underline;background:rgba(26,86,219,.08)}del{color:#c81e1e;text-decoration:line-through}
+#status{background:var(--bar);border-top:1px solid var(--line);padding:4px 12px;font-size:12px;color:var(--mut);display:flex;gap:16px}
+@media print{@page{margin:1in}body,#desk{background:#fff!important;padding:0!important;overflow:visible!important}#top,#tb,#status,#hub{display:none!important}
+#app,html,body{height:auto!important;display:block!important}#page{box-shadow:none;width:auto;min-height:0;padding:0;background-image:none}}
+</style>
+</head>
+<body>
+<div id="hub">
+  <h1><b>MTE</b> Productive Suite</h1>
+  <p>Create, calculate and present, all in one place. v0.0.1</p>
+  <div class="cards">
+    <button class="card" id="openWord"><div class="ic" style="background:#2b579a">W</div><h3>MTE Word Processor</h3><span>Letters, reports and resumes with formatting, tables, images and track changes.</span></button>
+    <div class="card off"><div class="ic" style="background:#1e7145">S</div><h3>MTE Spreadsheets</h3><span>Formulas, charts and pivot tables.</span><br><span class="tag">Next release</span></div>
+    <div class="card off"><div class="ic" style="background:#c43e1c">P</div><h3>MTE Presenter</h3><span>Slides with text, images, video and presenter notes.</span><br><span class="tag">Next release</span></div>
+  </div>
+</div>
+
+<div id="app">
+  <div id="top">
+    <span class="brand" id="home">MTE</span>
+    <input id="title" value="Untitled document" aria-label="Document title">
+    <button class="b" id="new">New</button>
+    <button class="b" id="open">Open</button>
+    <button class="b" id="save">Save</button>
+    <button class="b" id="print">Print / PDF</button>
+    <select class="b" id="psize"><option value="letter">Letter</option><option value="a4">A4</option></select>
+    <span class="sep"></span>
+    <button class="b" id="track" title="Track changes">Track changes</button>
+    <button class="b" id="accept">Accept all</button>
+    <button class="b" id="reject">Reject all</button>
+  </div>
+  <div id="tb">
+    <button class="b" data-c="undo" title="Undo">↶</button><button class="b" data-c="redo" title="Redo">↷</button><span class="sep"></span>
+    <select class="b" id="blk"><option value="p">Normal</option><option value="h1">Heading 1</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option><option value="blockquote">Quote</option></select>
+    <select class="b" id="font"><option>Calibri</option><option>Arial</option><option>Times New Roman</option><option>Georgia</option><option>Verdana</option><option>Courier New</option></select>
+    <select class="b" id="size"><option>8</option><option>10</option><option>11</option><option selected>12</option><option>14</option><option>18</option><option>24</option><option>36</option></select><span class="sep"></span>
+    <button class="b" data-c="bold"><b>B</b></button><button class="b" data-c="italic"><i>I</i></button><button class="b" data-c="underline"><u>U</u></button><button class="b" data-c="strikeThrough"><s>S</s></button>
+    <input type="color" id="fc" value="#000000" title="Text colour"><input type="color" id="hc" value="#ffff00" title="Highlight"><span class="sep"></span>
+    <button class="b" data-c="justifyLeft">⇤</button><button class="b" data-c="justifyCenter">↔</button><button class="b" data-c="justifyRight">⇥</button><button class="b" data-c="justifyFull">☰</button><span class="sep"></span>
+    <button class="b" data-c="insertUnorderedList">• List</button><button class="b" data-c="insertOrderedList">1. List</button><button class="b" data-c="outdent">⇠</button><button class="b" data-c="indent">⇢</button><span class="sep"></span>
+    <button class="b" id="tbl">Table</button><button class="b" id="img">Image</button><button class="b" id="lnk">Link</button><button class="b" id="pb">Page break</button><button class="b" id="fnd">Find</button>
+    <input type="file" id="imgf" accept="image/*" hidden><input type="file" id="docf" accept=".html,.htm,.txt" hidden>
+  </div>
+  <div id="desk"><div id="page" contenteditable="true" spellcheck="true"><p><br></p></div></div>
+  <div id="status"><span id="wc">0 words</span><span id="cc">0 characters</span><span id="pg">Page 1 of 1</span><span id="sv"></span></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),pg=$('#page');let track=false,KEY='mte-word-doc-v1';
+const AUTHOR='MTE User';
+function open_(){document.body.classList.add('in');location.hash='word';pg.focus()}
+function home(){document.body.classList.remove('in');location.hash=''}
+$('#openWord').onclick=open_;$('#home').onclick=home;if(location.hash==='#word')open_();
+// toolbar
+document.querySelectorAll('#tb .b,#top .b').forEach(b=>b.addEventListener('mousedown',e=>{if(b.tagName!=='SELECT')e.preventDefault()}));
+document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{pg.focus();document.execCommand(b.dataset.c);upd()});
+$('#blk').onchange=e=>{pg.focus();document.execCommand('formatBlock',false,e.target.value);upd()};
+$('#font').onchange=e=>{pg.focus();document.execCommand('fontName',false,e.target.value)};
+$('#size').onchange=e=>{pg.focus();document.execCommand('fontSize',false,7);pg.querySelectorAll('font[size="7"]').forEach(f=>{f.removeAttribute('size');f.style.fontSize=e.target.value+'pt'})};
+$('#fc').oninput=e=>{pg.focus();document.execCommand('foreColor',false,e.target.value)};
+$('#hc').oninput=e=>{pg.focus();document.execCommand('hiliteColor',false,e.target.value)};
+$('#tbl').onclick=()=>{const r=+prompt('Rows',3),c=+prompt('Columns',3);if(!r||!c)return;let h='<table>';for(let i=0;i<r;i++){h+='<tr>'+'<td><br></td>'.repeat(c)+'</tr>'}pg.focus();document.execCommand('insertHTML',false,h+'</table><p><br></p>')};
+$('#img').onclick=()=>$('#imgf').click();
+$('#imgf').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{pg.focus();document.execCommand('insertImage',false,r.result)};r.readAsDataURL(f);e.target.value=''};
+$('#lnk').onclick=()=>{const u=prompt('Link URL','https://');if(u){pg.focus();document.execCommand('createLink',false,u)}};
+$('#pb').onclick=()=>{pg.focus();document.execCommand('insertHTML',false,'<div style="break-after:page;height:0"></div><p><br></p>')};
+$('#fnd').onclick=()=>{const t=prompt('Find');if(t){pg.focus();if(!window.find(t))alert('Not found')}};
+$('#psize').onchange=e=>{const a=e.target.value==='a4';pg.style.setProperty('--pw',a?'210mm':'8.5in');pg.style.setProperty('--ph',a?'297mm':'11in')};
+$('#print').onclick=()=>print();
+$('#new').onclick=()=>{if(confirm('Start a new document? Unsaved changes will be lost.')){pg.innerHTML='<p><br></p>';$('#title').value='Untitled document';upd()}};
+$('#save').onclick=()=>{const t=$('#title').value||'document';const h='<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+t.replace(/</g,'&lt;')+'</title><style>body{font:12pt/1.5 Calibri,Arial,sans-serif;max-width:8.5in;margin:1in auto}table{border-collapse:collapse}td{border:1px solid #888;padding:4px 8px}ins{color:#1a56db}del{color:#c81e1e}</style></head><body>'+pg.innerHTML+'</body></html>';
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));a.download=t+'.html';a.click()};
+$('#open').onclick=()=>$('#docf').click();
+$('#docf').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const d=new DOMParser().parseFromString(r.result,'text/html');pg.innerHTML=f.name.endsWith('.txt')?r.result.split('\n').map(l=>'<p>'+l.replace(/</g,'&lt;')+'</p>').join(''):d.body.innerHTML;$('#title').value=f.name.replace(/\.\w+$/,'');upd()};r.readAsText(f);e.target.value=''};
+// track changes
+$('#track').onclick=()=>{track=!track;$('#track').classList.toggle('on',track)};
+const insOf=n=>{while(n&&n!==pg){if(n.nodeName==='INS')return n;n=n.parentNode}return null};
+function markDel(r,back){if(insOf(r.startContainer)&&insOf(r.endContainer)){document.execCommand('delete');return}
+const d=document.createElement('del');d.title=AUTHOR+' · '+new Date().toLocaleString();d.appendChild(r.extractContents());r.insertNode(d);
+const s=getSelection(),n=document.createRange();back?n.setStartBefore(d):n.setStartAfter(d);n.collapse(true);s.removeAllRanges();s.addRange(n)}
+pg.addEventListener('beforeinput',e=>{if(!track)return;const t=e.inputType,s=getSelection();if(!s.rangeCount)return;let r=s.getRangeAt(0);
+if(t==='insertText'){e.preventDefault();if(!r.collapsed){markDel(r,false);r=s.getRangeAt(0)}
+if(insOf(r.startContainer)){document.execCommand('insertText',false,e.data)}else{const i=document.createElement('ins');i.title=AUTHOR+' · '+new Date().toLocaleString();i.textContent=e.data;r.insertNode(i);const n=document.createRange();n.selectNodeContents(i);n.collapse(false);s.removeAllRanges();s.addRange(n)}upd()}
+else if(t==='deleteContentBackward'||t==='deleteContentForward'){const back=t==='deleteContentBackward';e.preventDefault();
+if(r.collapsed)s.modify('extend',back?'backward':'forward','character');r=s.getRangeAt(0);if(!r.collapsed)markDel(r,back);upd()}});
+$('#accept').onclick=()=>{pg.querySelectorAll('del').forEach(d=>d.remove());pg.querySelectorAll('ins').forEach(i=>i.replaceWith(...i.childNodes));upd()};
+$('#reject').onclick=()=>{pg.querySelectorAll('ins').forEach(i=>i.remove());pg.querySelectorAll('del').forEach(d=>d.replaceWith(...d.childNodes));upd()};
+// status + autosave
+let tm;function upd(){const t=pg.innerText.trim();$('#wc').textContent=(t?t.split(/\s+/).length:0)+' words';$('#cc').textContent=t.length+' characters';
+const ph=parseFloat(getComputedStyle(pg).getPropertyValue('--ph'))*(getComputedStyle(pg).getPropertyValue('--ph').includes('mm')?3.7795:96);
+const n=Math.max(1,Math.ceil(pg.scrollHeight/ph));$('#pg').textContent='Page 1 of '+n;
+clearTimeout(tm);tm=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify({h:pg.innerHTML,t:$('#title').value}));$('#sv').textContent='Saved'}catch(e){$('#sv').textContent=''}},600)}
+pg.addEventListener('input',upd);$('#title').addEventListener('input',upd);
+pg.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();document.execCommand(e.shiftKey?'outdent':'insertHTML',false,e.shiftKey?null:'&emsp;')}});
+pg.addEventListener('paste',e=>{e.preventDefault();const h=e.clipboardData.getData('text/html'),t=e.clipboardData.getData('text/plain');
+if(h){const d=new DOMParser().parseFromString(h,'text/html');d.querySelectorAll('style,script,meta,link').forEach(x=>x.remove());document.execCommand('insertHTML',false,d.body.innerHTML)}else document.execCommand('insertText',false,t)});
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){pg.innerHTML=s.h;$('#title').value=s.t||'Untitled document'}}catch(e){}
+document.execCommand('defaultParagraphSeparator',false,'p');upd();
+</script>
+</body>
+</html>
